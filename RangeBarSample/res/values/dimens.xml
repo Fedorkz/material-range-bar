@@ -10,4 +10,9 @@
     <dimen name="color_swatch_margins_large">8dip</dimen>
 
     <dimen name="color_swatch_margins_small">4dip</dimen>
+    <dimen name="button_inset_horizontal_material">10dp</dimen>
+    <dimen name="button_inset_vertical_material">10dp</dimen>
+    <dimen name="control_corner_material">5dp</dimen>
+    <dimen name="button_padding_horizontal_material">5dp</dimen>
+    <dimen name="button_padding_vertical_material">5dp</dimen>
 </resources>

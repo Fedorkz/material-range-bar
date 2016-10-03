@@ -4,22 +4,34 @@
         <attr name="tickStart" format="float" />
         <attr name="tickEnd" format="float" />
         <attr name="tickInterval" format="float" />
-        <attr name="tickHeight" format="dimension" />
+
+        <attr name="tickNotAvailRadius" format="dimension" />
+        <attr name="tickRadius" format="dimension" />
+        <attr name="tickSelectedRadius" format="dimension" />
+        <attr name="tickSelectorRadius" format="dimension" />
+
+        <attr name="tickNotAvailColor" format="color" />
         <attr name="tickColor" format="color" />
-        <attr name="barWeight" format="dimension" />
+        <attr name="tickSelectedColor" format="color" />
+        <attr name="tickSelectorColor" format="color" />
+
+        <attr name="barNotAvailWidth" format="dimension" />
+        <attr name="barWidth" format="dimension" />
+        <attr name="barSelectedWidth" format="dimension" />
+
+        <attr name="barNotAvailColor" format="color" />
+        <attr name="barColor" format="color" />
+        <attr name="barSelectedColor" format="color" />
+
         <attr name="rangeBarColor" format="reference|color" />
         <attr name="textColor" format="reference|color" />
         <attr name="pinColor" format="reference|color" />
-        <attr name="selectorSize" format="dimension" />
         <attr name="pinPadding" format="dimension" />
         <attr name="pinMinFont" format="dimension" />
         <attr name="pinMaxFont" format="dimension" />
         <attr name="rangeBarPaddingBottom" format="dimension" />
-        <attr name="selectorColor" format="reference|color" />
         <attr name="rangeBar" format="boolean" />
         <attr name="temporaryPins" format="boolean" />
-        <attr name="connectingLineWeight" format="dimension" />
-        <attr name="connectingLineColor" format="reference|color" />
         <attr name="pinRadius" format="dimension" />
     </declare-styleable>
 
