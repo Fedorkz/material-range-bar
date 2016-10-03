@@ -198,7 +198,7 @@ class PinView extends View {
     /**
      * Set the value of the pin
      *
-     * @param x String value of the pin
+     * @param x T value of the pin
      */
     public void setXValue(String x) {
         mValue = x;
@@ -266,6 +266,7 @@ class PinView extends View {
                     (int) mY - (mPinRadiusPx * 2) - (int) mPinPadding,
                     (int) mX + mPinRadiusPx, (int) mY - (int) mPinPadding);
             mPin.setBounds(mBounds);
+
             String text = mValue;
 
             if (this.formatter != null) {

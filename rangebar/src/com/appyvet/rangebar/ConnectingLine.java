@@ -27,6 +27,7 @@ public class ConnectingLine {
     // Member Variables ////////////////////////////////////////////////////////
 
     private final Paint mPaint;
+    private final Paint mCustomPaint;
 
     private final float mY;
 
@@ -56,6 +57,12 @@ public class ConnectingLine {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setAntiAlias(true);
 
+        mCustomPaint = new Paint();
+        mCustomPaint.setColor(connectingLineColor);
+        mCustomPaint.setStrokeWidth(connectingLineWeight1);
+        mCustomPaint.setStrokeCap(Paint.Cap.ROUND);
+        mCustomPaint.setAntiAlias(true);
+
         mY = y;
     }
 
@@ -70,6 +77,13 @@ public class ConnectingLine {
      */
     public void draw(Canvas canvas, PinView leftThumb, PinView rightThumb) {
         canvas.drawLine(leftThumb.getX(), mY, rightThumb.getX(), mY, mPaint);
+    }
+
+    public void drawLine(Canvas canvas, float left, float right, int color, float width) {
+        mCustomPaint.setColor(color);
+        mCustomPaint.setStrokeWidth(width);
+
+        canvas.drawLine(left, mY, right, mY, mCustomPaint);
     }
 
     /**

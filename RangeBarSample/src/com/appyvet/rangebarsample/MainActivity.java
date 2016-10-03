@@ -1,11 +1,13 @@
 
 package com.appyvet.rangebarsample;
 
+import com.appyvet.rangebar.IRangeBarFormatter;
 import com.appyvet.rangebar.RangeBar;
 import com.appyvet.rangebarsample.colorpicker.ColorPickerDialog;
 import com.appyvet.rangebarsample.colorpicker.Utils;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -77,6 +79,29 @@ public class MainActivity extends Activity implements
 
         // Gets the RangeBar
         rangebar = (RangeBar) findViewById(R.id.rangebar1);
+//        rangebar.setFormatter(new IRangeBarFormatter() {
+//            @Override
+//            public String format(String value) {
+//                return String.valueOf(value / 12) +
+//                        (value / 12 > 1 ? "\npm" : "\nam");
+//            }
+//        });
+
+        rangebar.setTickStart(0);
+        rangebar.setTickEnd(10);
+
+        rangebar.setAvailableRange(3, 7);
+        rangebar.setAvailableRangeColor(Color.GRAY);
+        rangebar.setAvailableRangeLineWidth(25);
+        rangebar.checkRanges();
+
+        rangebar.setPinTextListener(new RangeBar.OnRangeBarTextListener() {
+            @Override
+            public String getPinValue(RangeBar rangeBar, int tickIndex) {
+                return String.valueOf(1 + tickIndex % 12) +
+                        ((tickIndex > 12) ? "\npm" : "\nam");
+            }
+        });
 
         rangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +133,7 @@ public class MainActivity extends Activity implements
             }
 
         });
+
 
         // Sets the indices themselves upon input from the user
         indexButton.setOnClickListener(new View.OnClickListener() {
