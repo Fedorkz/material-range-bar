@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements
 
         rangebar.setAvailableRange(3, 7);
         rangebar.setAvailableRangeColor(Color.GRAY);
-        rangebar.setAvailableRangeLineWidth(25);
+        rangebar.setAvailableRangeLineWidth(10);
         rangebar.checkRanges();
 
         rangebar.setPinTextListener(new RangeBar.OnRangeBarTextListener() {

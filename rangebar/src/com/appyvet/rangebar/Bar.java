@@ -96,8 +96,8 @@ public class Bar {
 
         // Initialize the paint.
         mBarPaint = new Paint();
-        mBarPaint.setColor(barColor);
-        mBarPaint.setStrokeWidth(barWidth);
+        mBarPaint.setColor(barNotAvailColor);
+        mBarPaint.setStrokeWidth(barNotAvailWidth);
         mBarPaint.setAntiAlias(true);
 
         mTickPaint = new Paint();
