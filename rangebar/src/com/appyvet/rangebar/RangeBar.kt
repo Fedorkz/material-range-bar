@@ -379,30 +379,31 @@ class RangeBar : View {
             }
 
             if (mAvailableRange != null) {
-                val st = mBar!!.calcTickX(mAvailableRange!!.startTick)
-                val et = mBar!!.calcTickX(mAvailableRange!!.endTick)
-                mConnectingLine!!.drawLine(canvas, st, et, mBarColor, mBarWidth)
+                val st = mBar?.calcTickX(mAvailableRange?.startTick ?: 0) ?: Float.MIN_VALUE
+                val et = mBar?.calcTickX(mAvailableRange?.endTick ?: 0) ?: Float.MAX_VALUE
+                mConnectingLine?.drawLine(canvas, st, et, mBarColor, mBarWidth)
             }
 
-            mConnectingLine!!.draw(canvas, mLeftThumb!!, mRightThumb!!)
+            if (mConnectingLine != null)
+                mConnectingLine?.draw(canvas, mLeftThumb, mRightThumb)
 
             if (drawTicks) {
                 if (mAvailableRange != null)
-                    mBar!!.drawTicks(canvas, mAvailableRange!!.startTick, mAvailableRange!!.endTick, leftIndex, rightIndex)
+                    mBar?.drawTicks(canvas, mAvailableRange!!.startTick, mAvailableRange!!.endTick, leftIndex, rightIndex)
                 else
-                    mBar!!.drawTicks(canvas)
+                    mBar?.drawTicks(canvas)
             }
-            mLeftThumb!!.draw(canvas)
+            mLeftThumb.draw(canvas)
         } else {
-            mConnectingLine!!.draw(canvas, marginLeft, mRightThumb!!)
+            mConnectingLine?.draw(canvas, marginLeft, mRightThumb)
             if (drawTicks) {
                 if (mAvailableRange != null)
-                    mBar!!.drawTicks(canvas, mAvailableRange!!.startTick, mAvailableRange!!.endTick, leftIndex, rightIndex)
+                    mBar?.drawTicks(canvas, mAvailableRange!!.startTick, mAvailableRange!!.endTick, leftIndex, rightIndex)
                 else
-                    mBar!!.drawTicks(canvas)
+                    mBar?.drawTicks(canvas)
             }
         }
-        mRightThumb!!.draw(canvas)
+        mRightThumb.draw(canvas)
 
     }
 
@@ -1466,7 +1467,6 @@ class RangeBar : View {
     fun removeAvailableRange() {
         mAvailableRange = null
     }
-
 
     inner class Range(st: Int, et: Int, c: Int, w: Float) : Serializable {
         internal var startTick = 0

@@ -266,13 +266,17 @@ public class PinView
             }
 
             calibrateTextSize(mTextPaint, text, mBounds.width().toFloat())
-            mTextPaint!!.getTextBounds(text, 0, text.length, mBounds)
-            mTextPaint!!.textAlign = Paint.Align.CENTER
-            mPin!!.colorFilter = mPinFilter
-            mPin!!.draw(canvas)
+            mTextPaint.getTextBounds(text, 0, text.length, mBounds)
+            mTextPaint.textAlign = Paint.Align.CENTER
+
+            if (mPin != null)
+                mPin!!.colorFilter = mPinFilter
+
+//            mPin?.draw(canvas)
+
             canvas.drawText(text,
                     mX, mY - mPinRadiusPx.toFloat() - mPinPadding + mTextYPadding,
-                    mTextPaint!!)
+                    mTextPaint)
         }
         super.draw(canvas)
     }

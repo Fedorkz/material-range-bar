@@ -28,22 +28,22 @@
         android:layout_marginRight="0px"
 
         card_view:tickRadius="5dp"
-        card_view:tickNotAvailRadius="2dp"
-        card_view:tickSelectedRadius="7dp"
-        card_view:tickSelectorRadius="9dp"
+        card_view:tickNotAvailRadius="3dp"
+        card_view:tickSelectedRadius="5dp"
+        card_view:tickSelectorRadius="5dp"
 
-        card_view:tickColor="@android:color/darker_gray"
-        card_view:tickNotAvailColor="@android:color/black"
-        card_view:tickSelectorColor="#990000"
+        card_view:tickColor="#999"
+        card_view:tickNotAvailColor="#999"
+        card_view:tickSelectorColor="#3344ff"
         card_view:tickSelectedColor="#3344ff"
 
         card_view:barWidth="4dp"
         card_view:barNotAvailWidth="2dp"
-        card_view:barSelectedWidth="5dp"
+        card_view:barSelectedWidth="4dp"
 
-        card_view:barColor="#009900"
-        card_view:barSelectedColor="#000099"
-        card_view:barNotAvailColor="#409099"
+        card_view:barColor="#999"
+        card_view:barSelectedColor="#3344ff"
+        card_view:barNotAvailColor="#999"
 
         card_view:tickStart="5"
         card_view:tickInterval="1"

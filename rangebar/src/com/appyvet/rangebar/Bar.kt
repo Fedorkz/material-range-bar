@@ -25,8 +25,6 @@ import android.util.TypedValue
  */
 class Bar
 // Constructor /////////////////////////////////////////////////////////////
-
-
 /**
  * Bar constructor
 
@@ -73,6 +71,7 @@ class Bar
     // Member Variables ////////////////////////////////////////////////////////
 
     private val mBarPaint: Paint
+    private val mBarSelectedPaint: Paint
 
     private val mTickPaint: Paint
     private val mSelectedTickPaint: Paint
@@ -100,6 +99,11 @@ class Bar
         mBarPaint.color = barNotAvailColor
         mBarPaint.strokeWidth = barNotAvailWidth
         mBarPaint.isAntiAlias = true
+
+        mBarSelectedPaint = Paint()
+        mBarSelectedPaint.color = barSelectedColor
+        mBarSelectedPaint.strokeWidth = barSelectedWidth
+        mBarSelectedPaint.isAntiAlias = true
 
         mTickPaint = Paint()
         mTickPaint.color = tickColor
@@ -190,17 +194,21 @@ class Bar
 
         // Loop through and draw each tick (except final tick).
         for (i in 0..mNumSegments - 1) {
-            val x = calcTickX(i)
-            if (i >= minIdx && i <= maxIdx) {
-                canvas.drawCircle(x, mY, mTickHeight, mSelectedTickPaint)
-            } else if (i >= minAvailRange && i <= maxAvailRange)
-                canvas.drawCircle(x, mY, mTickHeight, mTickPaint)
-            else
-                canvas.drawCircle(x, mY, mTickNotAvailHeight, mTickNotAvailPaint)
+            drawTick(canvas, i, maxAvailRange, maxIdx, minAvailRange, minIdx, calcTickX(i))
         }
         // Draw final tick. We draw the final tick outside the loop to avoid any
         // rounding discrepancies.
-        canvas.drawCircle(rightX, mY, mTickHeight, mTickPaint)
+        drawTick(canvas, mNumSegments - 1, maxAvailRange, maxIdx, minAvailRange, minIdx, rightX)
+    }
+
+    private fun drawTick(canvas: Canvas, i: Int, maxAvailRange: Int, maxIdx: Int, minAvailRange: Int, minIdx: Int, x: Float) {
+        if (i >= minIdx && i <= maxIdx) {
+            canvas.drawCircle(x, mY, mTickHeight, mSelectedTickPaint)
+        } else if (i >= minAvailRange && i <= maxAvailRange) {
+            canvas.drawCircle(x, mY, mTickHeight, mTickPaint)
+        } else {
+            canvas.drawCircle(x, mY, mTickNotAvailHeight, mTickNotAvailPaint)
+        }
     }
 
     fun calcTickX(v: Int): Float {

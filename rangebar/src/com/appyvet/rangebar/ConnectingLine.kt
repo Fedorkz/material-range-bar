@@ -48,20 +48,16 @@ class ConnectingLine
 
         val res = ctx.resources
 
-        val connectingLineWeight1 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                connectingLineWeight,
-                res.displayMetrics)
-
         // Initialize the paint, set values
         mPaint = Paint()
         mPaint.color = connectingLineColor
-        mPaint.strokeWidth = connectingLineWeight1
+        mPaint.strokeWidth = connectingLineWeight
         mPaint.strokeCap = Paint.Cap.ROUND
         mPaint.isAntiAlias = true
 
         mCustomPaint = Paint()
         mCustomPaint.color = connectingLineColor
-        mCustomPaint.strokeWidth = connectingLineWeight1
+        mCustomPaint.strokeWidth = connectingLineWeight
         mCustomPaint.strokeCap = Paint.Cap.ROUND
         mCustomPaint.isAntiAlias = true
     }
