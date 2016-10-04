@@ -31,6 +31,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
@@ -84,6 +85,8 @@ class RangeBar : View {
 
     private val mDefaultHeight = 150
 
+    private var mMinDistance = 0
+
     /**
      * Gets the tick count.
 
@@ -97,6 +100,8 @@ class RangeBar : View {
     private lateinit var mRightThumb: PinView
 
     private var mBar: Bar? = null
+
+    private var mPinDrawable: Drawable? = null
 
     private var mConnectingLine: ConnectingLine? = null
 
@@ -319,13 +324,13 @@ class RangeBar : View {
             if (mLeftThumb != null) {
                 mLeftThumb.setFormatter(mFormatter)
                 mLeftThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickSelectorRadius,
-                        mTickSelectorColor, mMinPinFont, mMaxPinFont, mArePinsTemporary)
+                        mTickSelectorColor, mMinPinFont, mMaxPinFont, mArePinsTemporary, mPinDrawable)
             }
         }
         mRightThumb = PinView(ctx)
         mRightThumb.setFormatter(mFormatter)
         mRightThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickSelectorRadius,
-                mTickSelectorColor, mMinPinFont, mMaxPinFont, mArePinsTemporary)
+                mTickSelectorColor, mMinPinFont, mMaxPinFont, mArePinsTemporary, mPinDrawable)
 
         // Create the underlying bar.
         val marginLeft = Math.max(mExpandedPinRadius, mTickSelectorRadius)
@@ -973,6 +978,7 @@ class RangeBar : View {
 
             // Sets the values of the user-defined attributes based on the XML
             // attributes.
+
             val tickStart = ta.getFloat(R.styleable.RangeBar_tickStart, DEFAULT_TICK_START)
             val tickEnd = ta.getFloat(R.styleable.RangeBar_tickEnd, DEFAULT_TICK_END)
             val tickInterval = ta.getFloat(R.styleable.RangeBar_tickInterval, DEFAULT_TICK_INTERVAL)
@@ -998,6 +1004,8 @@ class RangeBar : View {
 
                 Log.e(TAG, "tickCount less than 2; invalid tickCount. XML input ignored.")
             }
+
+            mPinDrawable = ta.getDrawable(R.styleable.RangeBar_pin_icon);
 
             mTickNotAvailRadius = ta.getDimension(R.styleable.RangeBar_tickNotAvailRadius, DEFAULT_TICK_HEIGHT_DP)
             mTickRadius = ta.getDimension(R.styleable.RangeBar_tickRadius, DEFAULT_TICK_HEIGHT_DP)
@@ -1074,23 +1082,23 @@ class RangeBar : View {
 
         if (isRangeBar) {
             mLeftThumb = PinView(ctx)
-            mLeftThumb!!.init(ctx, yPos, 0f, mTickSelectorColor, mTextColor, mTickRadius, mTickColor,
-                    mMinPinFont, mMaxPinFont, false)
+            mLeftThumb.init(ctx, yPos, 0f, mTickSelectorColor, mTextColor, mTickRadius, mTickColor,
+                    mMinPinFont, mMaxPinFont, false, mPinDrawable)
         }
         mRightThumb = PinView(ctx)
-        mRightThumb!!.init(ctx, yPos, 0f, mTickSelectorColor, mTextColor, mTickRadius, mTickColor, mMinPinFont,
-                mMaxPinFont, false)
+        mRightThumb.init(ctx, yPos, 0f, mTickSelectorColor, mTextColor, mTickRadius, mTickColor, mMinPinFont,
+                mMaxPinFont, false, mPinDrawable)
 
         val marginLeft = marginLeft
         val barLength = barLength
 
         // Initialize thumbs to the desired indices
         if (isRangeBar) {
-            mLeftThumb!!.x = marginLeft + leftIndex / (tickCount - 1).toFloat() * barLength
-            mLeftThumb!!.setXValue(getPinValue(leftIndex))
+            mLeftThumb.x = marginLeft + leftIndex / (tickCount - 1).toFloat() * barLength
+            mLeftThumb.setXValue(getPinValue(leftIndex))
         }
-        mRightThumb!!.x = marginLeft + rightIndex / (tickCount - 1).toFloat() * barLength
-        mRightThumb!!.setXValue(getPinValue(rightIndex))
+        mRightThumb.x = marginLeft + rightIndex / (tickCount - 1).toFloat() * barLength
+        mRightThumb .setXValue(getPinValue(rightIndex))
 
         invalidate()
     }
@@ -1242,14 +1250,14 @@ class RangeBar : View {
     private fun onActionMove(x: Float) {
 
         // Move the pressed thumb to the new x-position.
-        if (isRangeBar && mLeftThumb!!.isPressed) {
-            movePin(mLeftThumb, x)
-        } else if (mRightThumb!!.isPressed) {
-            movePin(mRightThumb, x)
+        if (isRangeBar && mLeftThumb?.isPressed) {
+            movePin(mLeftThumb, x, rightIndex)
+        } else if (mRightThumb?.isPressed) {
+            movePin(mRightThumb, x, leftIndex)
         }
 
         // If the thumbs have switched order, fix the references.
-        if (isRangeBar && mLeftThumb!!.x > mRightThumb!!.x) {
+        if (isRangeBar && mLeftThumb?.x > mRightThumb?.x) {
             val temp = mLeftThumb
             mLeftThumb = mRightThumb
             mRightThumb = temp
@@ -1264,10 +1272,10 @@ class RangeBar : View {
 
         if (x <= componentLeft) {
             newLeftIndex = 0
-            movePin(mLeftThumb, mBar!!.leftX)
+            movePin(mLeftThumb, mBar?.leftX ?: 0f, rightIndex)
         } else if (x >= componentRight) {
             newRightIndex = tickCount - 1
-            movePin(mRightThumb, mBar!!.rightX)
+            movePin(mRightThumb, mBar?.rightX ?: 0f, leftIndex)
         }
         /// end added code
         // If either of the indices have changed, update and call the listener.
@@ -1276,12 +1284,12 @@ class RangeBar : View {
             leftIndex = newLeftIndex
             rightIndex = newRightIndex
             if (isRangeBar) {
-                mLeftThumb!!.setXValue(getPinValue(leftIndex))
+                mLeftThumb.setXValue(getPinValue(leftIndex))
             }
-            mRightThumb!!.setXValue(getPinValue(rightIndex))
+            mRightThumb.setXValue(getPinValue(rightIndex))
 
             if (mListener != null) {
-                mListener!!.onRangeChangeListener(this, leftIndex, rightIndex,
+                mListener?.onRangeChangeListener(this, leftIndex, rightIndex,
                         getPinValue(leftIndex),
                         getPinValue(rightIndex))
             }
@@ -1381,12 +1389,17 @@ class RangeBar : View {
      * *
      * @param x     the x-coordinate to move the thumb to
      */
-    private fun movePin(thumb: PinView?, x: Float) {
+    private fun movePin(thumb: PinView?, x: Float, ancorIdx: Int?) {
 
         // If the user has moved their finger outside the range of the bar,
         // do not move the thumbs past the edge.
+        val ancorMinX = if (ancorIdx != null) mBar!!.calcTickX(ancorIdx-mMinDistance) else Float.MAX_VALUE
+        val ancorMaxX = if (ancorIdx != null) mBar!!.calcTickX(ancorIdx+mMinDistance) else Float.MAX_VALUE
+
         if (x < mBar!!.leftX || x > mBar!!.rightX) {
             // Do nothing.
+        } else if (x <= ancorMaxX && x >= ancorMinX) {
+            // Do nothing. TODO: make it stick
         } else if (mAvailableRange != null && x < mBar!!.calcTickX(mAvailableRange!!.startTick)) {
             thumb!!.x = mBar!!.calcTickX(mAvailableRange!!.startTick)
             invalidate()
@@ -1466,6 +1479,10 @@ class RangeBar : View {
 
     fun removeAvailableRange() {
         mAvailableRange = null
+    }
+
+    fun setMinimalDistance(d: Int){
+        mMinDistance = d
     }
 
     inner class Range(st: Int, et: Int, c: Int, w: Float) : Serializable {

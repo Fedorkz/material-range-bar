@@ -92,6 +92,7 @@ public class MainActivity extends Activity implements
 
         rangebar.setAvailableRange(3, 10);
         rangebar.checkRanges();
+        rangebar.setMinimalDistance(2);
 
         rangebar.setPinTextListener(new RangeBar.OnRangeBarTextListener() {
             @Override

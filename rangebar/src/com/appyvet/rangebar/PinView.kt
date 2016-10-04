@@ -114,10 +114,10 @@ public class PinView
      * @param pinsAreTemporary  whether to show the pin initially or just the circle
      */
     fun init(ctx: Context, y: Float, pinRadiusDP: Float, pinColor: Int, textColor: Int,
-             circleRadius: Float, circleColor: Int, minFont: Float, maxFont: Float, pinsAreTemporary: Boolean) {
+             circleRadius: Float, circleColor: Int, minFont: Float, maxFont: Float, pinsAreTemporary: Boolean, pinDrawable: Drawable?) {
 
         mRes = ctx.resources
-        mPin = ContextCompat.getDrawable(ctx, R.drawable.rotate)
+        mPin = pinDrawable
 
         mDensity = resources.displayMetrics.density
         mMinPinFont = minFont / mDensity
@@ -257,7 +257,7 @@ public class PinView
             mBounds.set(mX.toInt() - mPinRadiusPx,
                     mY.toInt() - mPinRadiusPx * 2 - mPinPadding.toInt(),
                     mX.toInt() + mPinRadiusPx, mY.toInt() - mPinPadding.toInt())
-            mPin!!.bounds = mBounds
+            mPin?.bounds = mBounds
 
             var text: String = mValue ?: ""
 
@@ -269,10 +269,8 @@ public class PinView
             mTextPaint.getTextBounds(text, 0, text.length, mBounds)
             mTextPaint.textAlign = Paint.Align.CENTER
 
-            if (mPin != null)
-                mPin!!.colorFilter = mPinFilter
-
-//            mPin?.draw(canvas)
+            mPin?.colorFilter = mPinFilter
+            mPin?.draw(canvas)
 
             canvas.drawText(text,
                     mX, mY - mPinRadiusPx.toFloat() - mPinPadding + mTextYPadding,

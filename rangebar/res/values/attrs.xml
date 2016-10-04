@@ -23,6 +23,8 @@
         <attr name="barColor" format="color" />
         <attr name="barSelectedColor" format="color" />
 
+        <attr name="pin_icon" format="integer" />
+
         <attr name="rangeBarColor" format="reference|color" />
         <attr name="textColor" format="reference|color" />
         <attr name="pinColor" format="reference|color" />
