@@ -120,7 +120,6 @@ class RangeBar : View {
      * @return the 0-based index of the left pin
      */
     var leftIndex: Int = 0
-        private set
 
     /**
      * Gets the index of the right-most pin.
@@ -128,7 +127,6 @@ class RangeBar : View {
      * @return the 0-based index of the right pin
      */
     var rightIndex: Int = 0
-        private set
 
     /**
      * Gets the type of the bar.
@@ -163,17 +161,11 @@ class RangeBar : View {
 
     //Used for ignoring vertical moves
     private var mDiffX: Int = 0
-
     private var mDiffY: Int = 0
-
     private var mLastX: Float = 0.toFloat()
-
     private var mLastY: Float = 0.toFloat()
-
     private var mFormatter: IRangeBarFormatter? = null
-
     private var drawTicks = true
-
     private var mArePinsTemporary = true
 
     private var mPinTextFormatter: PinTextFormatter = object : PinTextFormatter {
@@ -1329,12 +1321,12 @@ class RangeBar : View {
         var nearestTick = 0
         nearestTick = mBar!!.getNearestTickIndex(thumb)
 
-        if (mAvailableRange != null) {
-            if (nearestTick < mAvailableRange!!.startTick)
-                nearestTick = mAvailableRange!!.startTick
+        mAvailableRange?.apply {
+            if (nearestTick < startTick)
+                nearestTick = startTick
 
-            if (nearestTick > mAvailableRange!!.endTick)
-                nearestTick = mAvailableRange!!.endTick
+            if (nearestTick > endTick)
+                nearestTick = endTick
         }
 
         thumb.x = mBar!!.calcTickX(nearestTick)

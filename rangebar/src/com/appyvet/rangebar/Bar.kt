@@ -198,7 +198,7 @@ class Bar
         }
         // Draw final tick. We draw the final tick outside the loop to avoid any
         // rounding discrepancies.
-        drawTick(canvas, mNumSegments - 1, maxAvailRange, maxIdx, minAvailRange, minIdx, rightX)
+        drawTick(canvas, mNumSegments, maxAvailRange, maxIdx, minAvailRange, minIdx, rightX)
     }
 
     private fun drawTick(canvas: Canvas, i: Int, maxAvailRange: Int, maxIdx: Int, minAvailRange: Int, minIdx: Int, x: Float) {

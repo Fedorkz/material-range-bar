@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements
         rangebar.setTickStart(0);
         rangebar.setTickEnd(10);
 
-        rangebar.setAvailableRange(3, 10);
+        rangebar.setAvailableRange(3, 7);
         rangebar.checkRanges();
         rangebar.setMinimalDistance(2);
 

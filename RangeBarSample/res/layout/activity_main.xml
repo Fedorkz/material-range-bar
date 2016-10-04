@@ -30,7 +30,7 @@
         card_view:tickRadius="5dp"
         card_view:tickNotAvailRadius="3dp"
         card_view:tickSelectedRadius="5dp"
-        card_view:tickSelectorRadius="5dp"
+        card_view:tickSelectorRadius="7dp"
 
         card_view:tickColor="#999"
         card_view:tickNotAvailColor="#999"
