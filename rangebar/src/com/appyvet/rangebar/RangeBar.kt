@@ -342,8 +342,8 @@ class RangeBar : View {
         mRightThumb.setXValue(getPinValue(rightIndex))
 
         // Set the thumb indices.
-        val newLeftIndex = if (isRangeBar) mBar!!.getNearestTickIndex(mLeftThumb) else 0
-        val newRightIndex = mBar!!.getNearestTickIndex(mRightThumb)
+        val newLeftIndex = if (isRangeBar) mBar!!.getNearestTickIndex(mLeftThumb.x) else 0
+        val newRightIndex = mBar!!.getNearestTickIndex(mRightThumb.x)
 
         // Call the listener.
         if (newLeftIndex != leftIndex || newRightIndex != rightIndex) {
@@ -1195,11 +1195,11 @@ class RangeBar : View {
      */
     private fun onActionUp(x: Float, y: Float) {
         if (isRangeBar && mLeftThumb.isPressed) {
-            releasePin(mLeftThumb, rightIndex)
+            releasePin(mLeftThumb, mLeftThumb.x, rightIndex)
 
         } else if (mRightThumb.isPressed) {
 
-            releasePin(mRightThumb, leftIndex)
+            releasePin(mRightThumb, mRightThumb.x, leftIndex)
 
         } else {
 //            var leftThumbXDistance = 0
@@ -1210,17 +1210,15 @@ class RangeBar : View {
 
             if (leftThumbXDistance < rightThumbXDistance) {
                 if (isRangeBar) {
-                    mLeftThumb.x = x
-                    releasePin(mLeftThumb, rightIndex)
+                    releasePin(mLeftThumb, x, rightIndex)
                 }
             } else {
-                mRightThumb.x = x
-                releasePin(mRightThumb, leftIndex)
+                releasePin(mRightThumb, x, leftIndex)
             }
 
             // Get the updated nearest tick marks for each thumb.
-            val newLeftIndex = if (isRangeBar) mBar!!.getNearestTickIndex(mLeftThumb) else 0
-            val newRightIndex = mBar!!.getNearestTickIndex(mRightThumb)
+            val newLeftIndex = if (isRangeBar) mBar!!.getNearestTickIndex(mLeftThumb.x) else 0
+            val newRightIndex = mBar!!.getNearestTickIndex(mRightThumb.x)
             // If either of the indices have changed, update and call the listener.
             if (newLeftIndex != leftIndex || newRightIndex != rightIndex) {
 
@@ -1251,15 +1249,15 @@ class RangeBar : View {
         }
 
         // If the thumbs have switched order, fix the references.
-        if (isRangeBar && mLeftThumb?.x > mRightThumb?.x) {
+        if (isRangeBar && mLeftThumb.x > mRightThumb.x) {
             val temp = mLeftThumb
             mLeftThumb = mRightThumb
             mRightThumb = temp
         }
 
         // Get the updated nearest tick marks for each thumb.
-        var newLeftIndex = if (isRangeBar) mBar!!.getNearestTickIndex(mLeftThumb!!) else 0
-        var newRightIndex = mBar!!.getNearestTickIndex(mRightThumb!!)
+        var newLeftIndex = if (isRangeBar) mBar!!.getNearestTickIndex(mLeftThumb.x) else 0
+        var newRightIndex = mBar!!.getNearestTickIndex(mRightThumb.x)
 
         val componentLeft = left + paddingLeft
         val componentRight = right - paddingRight - componentLeft
@@ -1319,24 +1317,25 @@ class RangeBar : View {
 
      * @param thumb the thumb to release
      */
-    private fun releasePin(thumb: PinView, ancorIdx: Int?) {
+    private fun releasePin(thumb: PinView, x: Float, ancorIdx: Int?): Boolean {
         var nearestTick = 0
-        nearestTick = mBar!!.getNearestTickIndex(thumb)
+        nearestTick = mBar!!.getNearestTickIndex(x)
 
         val ancorMinIdx = if (ancorIdx != null) ancorIdx-mMinDistance else Int.MAX_VALUE
         val ancorMaxIdx = if (ancorIdx != null) ancorIdx+mMinDistance else Int.MAX_VALUE
 
-        mAvailableRange?.apply {
-            if (nearestTick < startTick)
-                nearestTick = startTick
-
-            if (nearestTick > endTick)
-                nearestTick = endTick
-        }
-
+        Log.i("TN", "Nearest tick:" + nearestTick);
         if (nearestTick <= ancorMinIdx || nearestTick >= ancorMaxIdx) {
+            mAvailableRange?.apply {
+                if (nearestTick < startTick)
+                    nearestTick = startTick
+
+                if (nearestTick > endTick)
+                    nearestTick = endTick
+            }
+
             thumb.x = mBar!!.calcTickX(nearestTick)
-            val tickIndex = mBar!!.getNearestTickIndex(thumb)
+            val tickIndex = mBar!!.getNearestTickIndex(thumb.x)
             thumb.setXValue(getPinValue(tickIndex))
 
             if (mArePinsTemporary) {
@@ -1352,7 +1351,9 @@ class RangeBar : View {
                 invalidate()
             }
         }
+
         thumb.release()
+        return true;
     }
 
     /**

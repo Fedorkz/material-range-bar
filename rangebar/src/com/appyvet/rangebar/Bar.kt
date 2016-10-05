@@ -146,7 +146,7 @@ class Bar
      */
     fun getNearestTickCoordinate(thumb: PinView): Float {
 
-        val nearestTickIndex = getNearestTickIndex(thumb)
+        val nearestTickIndex = getNearestTickIndex(thumb.x)
 
         return leftX + nearestTickIndex * mTickDistance
     }
@@ -171,9 +171,9 @@ class Bar
      * *
      * @return the zero-based index of the nearest tick
      */
-    fun getNearestTickIndex(thumb: PinView): Int {
+    fun getNearestTickIndex(x: Float): Int {
 
-        return ((thumb.x - leftX + mTickDistance / 2f) / mTickDistance).toInt()
+        return ((x - leftX + mTickDistance / 2f) / mTickDistance).toInt()
     }
 
 
