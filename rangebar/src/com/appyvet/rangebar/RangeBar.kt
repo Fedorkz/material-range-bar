@@ -1454,11 +1454,18 @@ class RangeBar : View {
         mExtraLines.clear()
     }
 
-    fun setAvailableRange(startTick: Int, endTick: Int) {
-        mStartAvailTick = startTick
-        mEndAvailTick = endTick
-        if (mAvailableRange == null)
-            mAvailableRange = Range(startTick, endTick, 0, 0f)
+    fun setAvailableRange(st: Int, et: Int) {
+        mStartAvailTick = st
+        mEndAvailTick = et
+
+        if (mAvailableRange == null) {
+            mAvailableRange = Range(st, et, 0, 0f)
+        }
+
+        mAvailableRange?.apply {
+            startTick = mStartAvailTick;
+            endTick = mEndAvailTick;
+        }
     }
 
     fun setAvailableRangeColor(color: Int) {
