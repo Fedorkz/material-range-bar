@@ -1076,12 +1076,12 @@ class RangeBar : View {
 
         if (isRangeBar) {
             mLeftThumb = PinView(ctx)
-            mLeftThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickRadius, mTickSelectorColor,
-                    mMinPinFont, mMaxPinFont, false, mPinDrawable)
+            mLeftThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickSelectorRadius, mTickSelectorColor,
+                    mMinPinFont, mMaxPinFont, mArePinsTemporary, mPinDrawable)
         }
         mRightThumb = PinView(ctx)
-        mRightThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickRadius, mTickSelectorColor, mMinPinFont,
-                mMaxPinFont, false, mPinDrawable)
+        mRightThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickSelectorRadius, mTickSelectorColor, mMinPinFont,
+                mMaxPinFont, mArePinsTemporary, mPinDrawable)
 
         val marginLeft = marginLeft
         val barLength = barLength
