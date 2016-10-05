@@ -1071,14 +1071,16 @@ class RangeBar : View {
     private fun createPins() {
         val ctx = context
         val yPos = yPos
+        val density = resources.displayMetrics.density
+        val expandedPinRadius = mExpandedPinRadius / density
 
         if (isRangeBar) {
             mLeftThumb = PinView(ctx)
-            mLeftThumb.init(ctx, yPos, 0f, mTickSelectorColor, mTextColor, mTickRadius, mTickColor,
+            mLeftThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickRadius, mTickColor,
                     mMinPinFont, mMaxPinFont, false, mPinDrawable)
         }
         mRightThumb = PinView(ctx)
-        mRightThumb.init(ctx, yPos, 0f, mTickSelectorColor, mTextColor, mTickRadius, mTickColor, mMinPinFont,
+        mRightThumb.init(ctx, yPos, expandedPinRadius, mTickSelectorColor, mTextColor, mTickRadius, mTickColor, mMinPinFont,
                 mMaxPinFont, false, mPinDrawable)
 
         val marginLeft = marginLeft
@@ -1193,11 +1195,11 @@ class RangeBar : View {
      */
     private fun onActionUp(x: Float, y: Float) {
         if (isRangeBar && mLeftThumb.isPressed) {
-            releasePin(mLeftThumb)
+            releasePin(mLeftThumb, rightIndex)
 
         } else if (mRightThumb.isPressed) {
 
-            releasePin(mRightThumb)
+            releasePin(mRightThumb, leftIndex)
 
         } else {
 //            var leftThumbXDistance = 0
@@ -1209,11 +1211,11 @@ class RangeBar : View {
             if (leftThumbXDistance < rightThumbXDistance) {
                 if (isRangeBar) {
                     mLeftThumb.x = x
-                    releasePin(mLeftThumb)
+                    releasePin(mLeftThumb, rightIndex)
                 }
             } else {
                 mRightThumb.x = x
-                releasePin(mRightThumb)
+                releasePin(mRightThumb, leftIndex)
             }
 
             // Get the updated nearest tick marks for each thumb.
@@ -1317,9 +1319,12 @@ class RangeBar : View {
 
      * @param thumb the thumb to release
      */
-    private fun releasePin(thumb: PinView) {
+    private fun releasePin(thumb: PinView, ancorIdx: Int?) {
         var nearestTick = 0
         nearestTick = mBar!!.getNearestTickIndex(thumb)
+
+        val ancorMinIdx = if (ancorIdx != null) ancorIdx-mMinDistance else Int.MAX_VALUE
+        val ancorMaxIdx = if (ancorIdx != null) ancorIdx+mMinDistance else Int.MAX_VALUE
 
         mAvailableRange?.apply {
             if (nearestTick < startTick)
@@ -1329,23 +1334,24 @@ class RangeBar : View {
                 nearestTick = endTick
         }
 
-        thumb.x = mBar!!.calcTickX(nearestTick)
-        val tickIndex = mBar!!.getNearestTickIndex(thumb)
-        thumb.setXValue(getPinValue(tickIndex))
+        if (nearestTick <= ancorMinIdx || nearestTick >= ancorMaxIdx) {
+            thumb.x = mBar!!.calcTickX(nearestTick)
+            val tickIndex = mBar!!.getNearestTickIndex(thumb)
+            thumb.setXValue(getPinValue(tickIndex))
 
-        if (mArePinsTemporary) {
-            val animator = ValueAnimator.ofFloat(mExpandedPinRadius, 0f)
-            animator.addUpdateListener { animation ->
-                mThumbRadiusDP = animation.animatedValue as Float
-                thumb.setSize(mThumbRadiusDP,
-                        mPinPadding - mPinPadding * animation.animatedFraction)
+            if (mArePinsTemporary) {
+                val animator = ValueAnimator.ofFloat(mExpandedPinRadius, 0f)
+                animator.addUpdateListener { animation ->
+                    mThumbRadiusDP = animation.animatedValue as Float
+                    thumb.setSize(mThumbRadiusDP,
+                            mPinPadding - mPinPadding * animation.animatedFraction)
+                    invalidate()
+                }
+                animator.start()
+            } else {
                 invalidate()
             }
-            animator.start()
-        } else {
-            invalidate()
         }
-
         thumb.release()
     }
 
