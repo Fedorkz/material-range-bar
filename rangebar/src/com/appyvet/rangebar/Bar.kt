@@ -55,10 +55,12 @@ class Bar
  tickCount: Int,
  private val mTickHeight: Float,
  private val mTickNotAvailHeight: Float,
+ private val mTickNotAvailBorderHeight: Float,
  tickSelectedWidth: Float,
 
  tickColor: Int,
  tickNotAvailColor: Int,
+ tickNotAvailBorderColor: Int,
  tickSelectedColor: Int,
 
  barWidth: Float,
@@ -77,6 +79,7 @@ class Bar
     private val mTickPaint: Paint
     private val mSelectedTickPaint: Paint
     private val mTickNotAvailPaint: Paint
+    private val mTickNotAvailBorderPaint: Paint
     private val mBarIsFillWidth: Boolean
 
     /**
@@ -122,6 +125,14 @@ class Bar
         mTickNotAvailPaint.color = tickNotAvailColor
         mTickNotAvailPaint.strokeWidth = mTickNotAvailHeight
         mTickNotAvailPaint.isAntiAlias = true
+
+
+        mTickNotAvailBorderPaint = Paint()
+        mTickNotAvailBorderPaint.color = tickNotAvailBorderColor
+        mTickNotAvailBorderPaint.strokeWidth = mTickNotAvailBorderHeight
+        mTickNotAvailBorderPaint.isAntiAlias = true
+
+
 
     }//        mTickHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
     //                tickHeightDP,
@@ -209,7 +220,9 @@ class Bar
     private fun drawTick(canvas: Canvas, i: Int, maxAvailRange: Int, maxIdx: Int, minAvailRange: Int, minIdx: Int, x: Float) {
         if (i >= minIdx && i <= maxIdx) {
             canvas.drawCircle(x, mY, mTickHeight, mSelectedTickPaint)
-        } else if (i >= minAvailRange && i <= maxAvailRange) {
+        } else if (i == minAvailRange || i == maxAvailRange){
+            canvas.drawCircle(x, mY, mTickNotAvailBorderHeight, mTickNotAvailBorderPaint)
+        } else if (i > minAvailRange && i < maxAvailRange) {
             canvas.drawCircle(x, mY, mTickHeight, mTickPaint)
         } else {
             canvas.drawCircle(x, mY, mTickNotAvailHeight, mTickNotAvailPaint)

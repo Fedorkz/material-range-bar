@@ -30,11 +30,13 @@
         card_view:barFillWidth="true"
         card_view:tickRadius="5dp"
         card_view:tickNotAvailRadius="3dp"
+        card_view:tickNotAvailBorderRadius="7dp"
         card_view:tickSelectedRadius="5dp"
         card_view:tickSelectorRadius="7dp"
 
         card_view:tickColor="#999"
         card_view:tickNotAvailColor="#999"
+        card_view:tickNotAvailBorderColor="#f19"
         card_view:tickSelectorColor="#3344ff"
         card_view:tickSelectedColor="#3344ff"
 

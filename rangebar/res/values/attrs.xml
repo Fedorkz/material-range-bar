@@ -5,12 +5,14 @@
         <attr name="tickEnd" format="float" />
         <attr name="tickInterval" format="float" />
 
+        <attr name="tickNotAvailBorderRadius" format="dimension" />
         <attr name="tickNotAvailRadius" format="dimension" />
         <attr name="tickRadius" format="dimension" />
         <attr name="tickSelectedRadius" format="dimension" />
         <attr name="tickSelectorRadius" format="dimension" />
 
         <attr name="tickNotAvailColor" format="color" />
+        <attr name="tickNotAvailBorderColor" format="color" />
         <attr name="tickColor" format="color" />
         <attr name="tickSelectedColor" format="color" />
         <attr name="tickSelectorColor" format="color" />

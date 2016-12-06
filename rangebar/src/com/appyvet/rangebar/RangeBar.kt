@@ -141,11 +141,15 @@ class RangeBar : View {
     private var mBarPaddingBottom = DEFAULT_BAR_PADDING_BOTTOM_DP
 
     private var mTickNotAvailRadius = DEFAULT_TICK_WIDTH
+    private var mTickNotAvailBorderRadius = DEFAULT_TICK_WIDTH
+
     private var mTickRadius = DEFAULT_TICK_WIDTH
     private var mTickSelectedRadius = DEFAULT_TICK_WIDTH
     private var mTickSelectorRadius = DEFAULT_TICK_WIDTH
 
     private var mTickNotAvailColor = DEFAULT_TICK_COLOR
+    private var mTickNotAvailBorderColor = DEFAULT_TICK_COLOR
+
     private var mTickColor = DEFAULT_TICK_COLOR
     private var mTickSelectedColor = DEFAULT_TICK_COLOR
     private var mTickSelectorColor = DEFAULT_TICK_COLOR
@@ -331,7 +335,8 @@ class RangeBar : View {
         val barLength = w - 2 * marginLeft
         //        mBar = new Bar(ctx, marginLeft, yPos, barLength, mTickCount, mTickRadius, mTickNotAvailRadius, mTickColor, mTickSelectedColor,
         //                mTickNotAvailColor, mBarWidth, mBarNotAvailWidth, mBarColor);
-        mBar = Bar(ctx, marginLeft, yPos, barLength, tickCount, mTickRadius, mTickNotAvailRadius, mTickSelectedRadius, mTickColor, mTickNotAvailColor, mTickSelectedColor,
+        mBar = Bar(ctx, marginLeft, yPos, barLength, tickCount, mTickRadius, mTickNotAvailRadius, mTickNotAvailBorderRadius, mTickSelectedRadius,
+                mTickColor, mTickNotAvailColor, mTickNotAvailBorderColor, mTickSelectedColor,
                 mBarWidth, mBarNotAvailWidth, mBarSelectedWidth, mBarColor, mBarNotAvailColor, mBarSelectedColor, mBarIsFillWidth)
 
         // Initialize thumbs to the desired indices
@@ -1001,11 +1006,15 @@ class RangeBar : View {
             mPinDrawable = ta.getDrawable(R.styleable.RangeBar_pin_icon);
 
             mTickNotAvailRadius = ta.getDimension(R.styleable.RangeBar_tickNotAvailRadius, DEFAULT_TICK_HEIGHT_DP)
+            mTickNotAvailBorderRadius = ta.getDimension(R.styleable.RangeBar_tickNotAvailBorderRadius, DEFAULT_TICK_HEIGHT_DP)
+
             mTickRadius = ta.getDimension(R.styleable.RangeBar_tickRadius, DEFAULT_TICK_HEIGHT_DP)
             mTickSelectedRadius = ta.getDimension(R.styleable.RangeBar_tickSelectedRadius, DEFAULT_TICK_HEIGHT_DP)
             mTickSelectorRadius = ta.getDimension(R.styleable.RangeBar_tickSelectorRadius, DEFAULT_TICK_HEIGHT_DP)
 
             mTickNotAvailColor = ta.getColor(R.styleable.RangeBar_tickNotAvailColor, DEFAULT_BAR_COLOR)
+            mTickNotAvailBorderColor = ta.getColor(R.styleable.RangeBar_tickNotAvailBorderColor, DEFAULT_BAR_COLOR)
+
             mTickColor = ta.getColor(R.styleable.RangeBar_tickColor, DEFAULT_BAR_COLOR)
             mTickSelectedColor = ta.getColor(R.styleable.RangeBar_tickSelectedColor, DEFAULT_BAR_COLOR)
             mTickSelectorColor = ta.getColor(R.styleable.RangeBar_tickSelectorColor, DEFAULT_BAR_COLOR)
@@ -1050,7 +1059,8 @@ class RangeBar : View {
      */
     private fun createBar() {
 
-        mBar = Bar(context, marginLeft, yPos, barLength, tickCount, mTickRadius, mTickNotAvailRadius, mTickSelectedRadius, mTickColor, mTickNotAvailColor, mTickSelectedColor,
+        mBar = Bar(context, marginLeft, yPos, barLength, tickCount, mTickRadius, mTickNotAvailRadius, mTickNotAvailBorderRadius, mTickSelectedRadius,
+                mTickColor, mTickNotAvailColor, mTickNotAvailBorderColor, mTickSelectedColor,
                 mBarWidth, mBarNotAvailWidth, mBarSelectedWidth, mBarColor, mBarNotAvailColor, mBarSelectedColor, mBarIsFillWidth)
 
         invalidate()
