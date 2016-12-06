@@ -158,6 +158,7 @@ class RangeBar : View {
     private var mBarColor = DEFAULT_TICK_COLOR
     private var mBarSelectedColor = DEFAULT_TICK_COLOR
 
+    private var mBarIsFillWidth = false
 
     //Used for ignoring vertical moves
     private var mDiffX: Int = 0
@@ -331,7 +332,7 @@ class RangeBar : View {
         //        mBar = new Bar(ctx, marginLeft, yPos, barLength, mTickCount, mTickRadius, mTickNotAvailRadius, mTickColor, mTickSelectedColor,
         //                mTickNotAvailColor, mBarWidth, mBarNotAvailWidth, mBarColor);
         mBar = Bar(ctx, marginLeft, yPos, barLength, tickCount, mTickRadius, mTickNotAvailRadius, mTickSelectedRadius, mTickColor, mTickNotAvailColor, mTickSelectedColor,
-                mBarWidth, mBarNotAvailWidth, mBarSelectedWidth, mBarColor, mBarNotAvailColor, mBarSelectedColor)
+                mBarWidth, mBarNotAvailWidth, mBarSelectedWidth, mBarColor, mBarNotAvailColor, mBarSelectedColor, mBarIsFillWidth)
 
         // Initialize thumbs to the desired indices
         if (isRangeBar) {
@@ -1017,6 +1018,8 @@ class RangeBar : View {
             mBarColor = ta.getColor(R.styleable.RangeBar_barColor, DEFAULT_BAR_COLOR)
             mBarSelectedColor = ta.getColor(R.styleable.RangeBar_barSelectedColor, DEFAULT_BAR_COLOR)
 
+            mBarIsFillWidth = ta.getBoolean(R.styleable.RangeBar_barFillWidth, false)
+
             mTextColor = ta.getColor(R.styleable.RangeBar_textColor, DEFAULT_TEXT_COLOR)
 
             mExpandedPinRadius = ta.getDimension(R.styleable.RangeBar_pinRadius, TypedValue.applyDimension(
@@ -1048,7 +1051,7 @@ class RangeBar : View {
     private fun createBar() {
 
         mBar = Bar(context, marginLeft, yPos, barLength, tickCount, mTickRadius, mTickNotAvailRadius, mTickSelectedRadius, mTickColor, mTickNotAvailColor, mTickSelectedColor,
-                mBarWidth, mBarNotAvailWidth, mBarSelectedWidth, mBarColor, mBarNotAvailColor, mBarSelectedColor)
+                mBarWidth, mBarNotAvailWidth, mBarSelectedWidth, mBarColor, mBarNotAvailColor, mBarSelectedColor, mBarIsFillWidth)
 
         invalidate()
     }

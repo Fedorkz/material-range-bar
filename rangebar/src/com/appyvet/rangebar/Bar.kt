@@ -66,7 +66,8 @@ class Bar
  barSelectedWidth: Float,
  barColor: Int,
  barNotAvailColor: Int,
- barSelectedColor: Int) {
+ barSelectedColor: Int,
+ barIsFillWidth: Boolean) {
 
     // Member Variables ////////////////////////////////////////////////////////
 
@@ -76,6 +77,7 @@ class Bar
     private val mTickPaint: Paint
     private val mSelectedTickPaint: Paint
     private val mTickNotAvailPaint: Paint
+    private val mBarIsFillWidth: Boolean
 
     /**
      * Get the x-coordinate of the right edge of the bar.
@@ -89,6 +91,7 @@ class Bar
     private var mTickDistance: Float = 0.toFloat()
 
     init {
+        mBarIsFillWidth = barIsFillWidth
         rightX = leftX + length
 
         mNumSegments = tickCount - 1
@@ -133,8 +136,10 @@ class Bar
      * *               View#onDraw()}
      */
     fun draw(canvas: Canvas) {
+        var lx = if (mBarIsFillWidth) 0f else leftX
+        var rx = if (mBarIsFillWidth) 0f + canvas.width else rightX
 
-        canvas.drawLine(leftX, mY, rightX, mY, mBarPaint)
+        canvas.drawLine(lx, mY, rx, mY, mBarPaint)
     }
 
     /**

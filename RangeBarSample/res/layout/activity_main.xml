@@ -27,6 +27,7 @@
         android:layout_marginLeft="0px"
         android:layout_marginRight="0px"
 
+        card_view:barFillWidth="true"
         card_view:tickRadius="5dp"
         card_view:tickNotAvailRadius="3dp"
         card_view:tickSelectedRadius="5dp"
