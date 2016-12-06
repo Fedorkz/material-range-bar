@@ -222,6 +222,7 @@ class Bar
             canvas.drawCircle(x, mY, mTickHeight, mSelectedTickPaint)
         } else if (i == minAvailRange || i == maxAvailRange){
             canvas.drawCircle(x, mY, mTickNotAvailBorderHeight, mTickNotAvailBorderPaint)
+            canvas.drawCircle(x, mY, mTickNotAvailHeight, mTickNotAvailPaint)
         } else if (i > minAvailRange && i < maxAvailRange) {
             canvas.drawCircle(x, mY, mTickHeight, mTickPaint)
         } else {
